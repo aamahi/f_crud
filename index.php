@@ -7,7 +7,19 @@
 
     if('seed'==$task){
         seed();
+        $info = "Seeding is Compleate";
     }
+
+    if(isset($_POST['save'])){
+      $name = filter_input(INPUT_POST,'name',FILTER_SANITIZE_STRING);
+      $dept = filter_input(INPUT_POST,'dept',FILTER_SANITIZE_STRING);
+      $roll = filter_input(INPUT_POST,'roll',FILTER_SANITIZE_STRING);
+      if($name !='' && $dept !='' && $roll !=''){
+        add_student($name,$dept,$roll);
+      }
+    }
+
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -26,11 +38,44 @@
 
     <div class="row mt-3">
         <div class="container">
-            <div class="col-md-8 offset-md-2">
+            <div class="col-md-10 offset-md-1">
                 <div class="card">
                         <?php include_once('nav.php');?>
                     <div class="card-body">
-
+                    <?php
+                        if($info !=''):
+                    ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <?=$info;?>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  <?php
+                      endif;
+                      if($task == 'report'):
+                        genarateReport();
+                      endif;
+                      if($task == 'add_student'):
+                  ?>
+                  <form action='index.php' method="post">
+                      <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
+                      </div>
+                      <div class="form-group">
+                        <label for="dept">Department</label>
+                        <input type="text" class="form-control" id="dept" name="dept" placeholder="Enter Department">
+                      </div>
+                      <div class="form-group">
+                        <label for="roll">Roll</label>
+                        <input type="number" class="form-control" id="dept" name="roll" placeholder="Enter Roll">
+                      </div>
+                      <button type="submit" class="btn btn-primary" name="save">Save</button>
+                </form>
+                  <?php
+                      endif;
+                  ?>
                     </div>
                 </div>
             </div>
