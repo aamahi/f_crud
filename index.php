@@ -21,7 +21,7 @@
       if($name !='' && $dept !='' && $roll !=''){
         $result = add_student($name,$dept,$roll);
         if($result){
-          header('Location:index.php?error=success');
+          header('Location:index.php?error=sc');
         }else{
           $error = 1;
         }
@@ -62,17 +62,17 @@
                     </div>
                   <?php
                       endif;
-                      if('success'==$error):
+                      if('sc'==$error):
                         ?>
                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                 Sucessfully Added Student !
+                                  Student added Sucessfully !
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
                         <?php
                       endif;
-
+      
                       if('1'==$error):
                   ?>
                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
