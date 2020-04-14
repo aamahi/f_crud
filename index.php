@@ -11,6 +11,9 @@
         $info = "Seeding is Compleate";
     }
 
+    $name = '';
+    $dept = '';
+    $roll = '';
     if(isset($_POST['save'])){
       $name = filter_input(INPUT_POST,'name',FILTER_SANITIZE_STRING);
       $dept = filter_input(INPUT_POST,'dept',FILTER_SANITIZE_STRING);
@@ -18,9 +21,9 @@
       if($name !='' && $dept !='' && $roll !=''){
         $result = add_student($name,$dept,$roll);
         if($result){
-          header('Location:index.php');
+          header('Location:index.php?error=success');
         }else{
-          header('Location:index.php?task=add&&error=1');
+          $error = 1;
         }
       }
     }
@@ -52,18 +55,28 @@
                         if($info !=''):
                     ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <?=$info;?>
+                          <?=$info;?>
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                   <?php
                       endif;
+                      if('success'==$error):
+                        ?>
+                           <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                 Sucessfully Added Student !
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                        <?php
+                      endif;
 
                       if('1'==$error):
                   ?>
                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            Duplicate Roll Number
+                            Duplicate Roll Number !
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -76,18 +89,18 @@
                       endif;
                       if($task == 'add_student'):
                   ?>
-                  <form action='index.php' method="post">
+                  <form action='index.php?task=add_student' method="post">
                       <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
+                        <input type="text" class="form-control" id="name" name="name" value="<?=$name?>" placeholder="Enter Name">
                       </div>
                       <div class="form-group">
                         <label for="dept">Department</label>
-                        <input type="text" class="form-control" id="dept" name="dept" placeholder="Enter Department">
+                        <input type="text" class="form-control" id="dept" name="dept" value="<?=$dept?>" placeholder="Enter Department">
                       </div>
                       <div class="form-group">
                         <label for="roll">Roll</label>
-                        <input type="number" class="form-control" id="dept" name="roll" placeholder="Enter Roll">
+                        <input type="number" class="form-control" id="dept" name="roll" value="<?=$roll?>" placeholder="Enter Roll">
                       </div>
                       <button type="submit" class="btn btn-primary" name="save">Save</button>
                 </form>
