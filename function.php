@@ -20,12 +20,12 @@ function seed(){
             'roll'=>'252',
         ],
     ];
-    $fp = fopen(DB_NAME,'w');
-    foreach($data as $student){
-        fputcsv($fp,$student);
-    }
-    // $serializeData = serialize($data);
-    // file_put_contents(DB_NAME,$serializeData);
+    // $fp = fopen(DB_NAME,'w');
+    // foreach($data as $student){
+    //     fputcsv($fp,$student);
+    // }
+    $serializeData = serialize($data);
+    file_put_contents(DB_NAME,$serializeData);
 }
 seed();
 ?>
