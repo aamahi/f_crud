@@ -17,7 +17,7 @@ function seed(){
             'id'=>3,
             'name'=>'Nomik Uddin',
             'dept'=>'EEE',
-            'roll'=>'252',
+            'roll'=>'253',
         ],
     ];
     // $fp = fopen(DB_NAME,'w');
@@ -64,23 +64,31 @@ function seed(){
     }
 
     function add_student($name,$dept,$roll){
+        $found = false;
         $serializeData = file_get_contents(DB_NAME);
         $students = unserialize($serializeData);
-        $new_id = count($students)+1;
-        $student = array(
-            'id'=>$new_id,
-            'name'=>$name,
-            'dept'=>$dept,
-            'roll'=>$roll,
-        );
+        foreach($students as $_student){
+           if($_student['roll']== $roll){
+                $found = true;
+                break;
+           }
+        }
+        if(!$found){
+            $new_id = count($students)+1;
+            $student = array(
+                'id'=>$new_id,
+                'name'=>$name,
+                'dept'=>$dept,
+                'roll'=>$roll,
+            );
 
-        array_push($students,$student);
+            array_push($students,$student);
 
-        $serializeData = serialize($students);
-        file_put_contents(DB_NAME,$serializeData);
+            $serializeData = serialize($students);
+            file_put_contents(DB_NAME,$serializeData);
 
-
-        
-
+            return true;
+        }
+        return false;
     }
 ?>
