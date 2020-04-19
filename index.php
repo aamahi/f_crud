@@ -18,12 +18,24 @@
       $name = filter_input(INPUT_POST,'name',FILTER_SANITIZE_STRING);
       $dept = filter_input(INPUT_POST,'dept',FILTER_SANITIZE_STRING);
       $roll = filter_input(INPUT_POST,'roll',FILTER_SANITIZE_STRING);
-      if($name !='' && $dept !='' && $roll !=''){
-        $result = add_student($name,$dept,$roll);
-        if($result){
-          header('Location:index.php?error=sc');
-        }else{
-          $error = 1;
+      $id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_STRING);
+      if($id){
+        if($name !='' && $dept !='' && $roll !=''){
+          $result = updateStudent($id,$name,$dept,$roll);
+          if($result){
+            header('Location:index.php?error=2');
+          }else{
+            $error = 1;
+          }
+        }
+      }else{
+        if($name !='' && $dept !='' && $roll !=''){
+          $result = add_student($name,$dept,$roll);
+          if($result){
+            header('Location:index.php?error=2');
+          }else{
+            $error = 1;
+          }
         }
       }
     }
@@ -62,7 +74,7 @@
                     </div>
                   <?php
                       endif;
-                      if('sc'==$error):
+                      if(2==$error):
                         ?>
                            <div class="alert alert-success alert-dismissible fade show" role="alert">
                                   Student added Sucessfully !
@@ -107,6 +119,30 @@
                 </form>
                   <?php
                       endif;
+                      if($task == 'edit'):
+                        $id = filter_input(INPUT_GET,'id',FILTER_SANITIZE_STRING);
+                        $student = getStudent($id);
+                          if($student):
+                          ?>
+                          <form method="post">
+                              <input type="hidden" name='id' value="<?=$id?>">
+                              <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" value="<?=$student['name']?>" placeholder="Enter Name">
+                              </div>
+                              <div class="form-group">
+                                <label for="dept">Department</label>
+                                <input type="text" class="form-control" id="dept" name="dept" value="<?=$student['dept']?>" placeholder="Enter Department">
+                              </div>
+                              <div class="form-group">
+                                <label for="roll">Roll</label>
+                                <input type="number" class="form-control" id="roll" name="roll" value="<?=$student['roll']?>" placeholder="Enter Roll">
+                              </div>
+                              <button type="submit" class="btn btn-primary" name="save">Update</button>
+                        </form>
+                          <?php
+                          endif;
+                        endif;
                   ?>
                     </div>
                 </div>

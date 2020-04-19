@@ -91,4 +91,34 @@ function seed(){
         }
         return false;
     }
+    function getStudent($id){
+        $serializeData = file_get_contents(DB_NAME);
+        $students = unserialize($serializeData);
+        foreach($students as $student){
+            if($student['id']== $id){
+                return $student;
+           }
+          
+        }
+        return false;
+    }
+    function updateStudent($id,$name,$dept,$roll){
+        $serializeData = file_get_contents(DB_NAME);
+        $students = unserialize($serializeData);
+        $found = false;
+        foreach($students as $_student){
+           if($_student['roll']== $roll && $_student[id]!=$id){
+                $found = true;
+                break;
+           }
+        }
+        if(!$found){
+        $students[$id-1]['name'] = $name;
+        $students[$id-1]['dept'] = $dept;
+        $students[$id-1]['roll'] = $roll;
+        $serializeData = serialize($students);
+        file_put_contents(DB_NAME,$serializeData);
+        header('Location:index.php?error=2');
+        }
+    }
 ?>
