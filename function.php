@@ -52,7 +52,7 @@ function seed(){
                     <th scope="row"><?php printf("%s",$student['roll'])?></th>
                     <th scope="row">
                         <?php printf("<a href='index.php?task=edit&id=%s' class='btn btn-info'>Edit</a>",$student['id'])?>
-                        <?php printf("<a href='index.php?task=delete&id=%s' class='btn btn-danger'>Delete</a>",$student['id'])?>
+                        <?php printf("<a href='index.php?task=delete&id=%s' class='delete btn btn-danger'>Delete</a>",$student['id'])?>
                     </th>
                 </tr>
             <?php
@@ -126,7 +126,11 @@ function seed(){
     function deletedStudent($id){
         $serializeData = file_get_contents(DB_NAME);
         $students = unserialize($serializeData);
-        unset($students[$id-1]);
+        foreach($students as $offset=>$student){
+            if($student['id']== $id){
+                unset($students[$offset]);
+            }
+        }
         $serializeData = serialize($students);
         file_put_contents(DB_NAME,$serializeData);
         header('Location:index.php?error=4');
