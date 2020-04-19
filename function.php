@@ -74,7 +74,8 @@ function seed(){
            }
         }
         if(!$found){
-            $new_id = count($students)+1;
+            // $new_id = count($students)+1;
+            $new_id = getNewId($students);
             $student = array(
                 'id'=>$new_id,
                 'name'=>$name,
@@ -118,7 +119,21 @@ function seed(){
         $students[$id-1]['roll'] = $roll;
         $serializeData = serialize($students);
         file_put_contents(DB_NAME,$serializeData);
-        header('Location:index.php?error=2');
+        header('Location:index.php?error=3');
         }
     }
+
+    function deletedStudent($id){
+        $serializeData = file_get_contents(DB_NAME);
+        $students = unserialize($serializeData);
+        unset($students[$id-1]);
+        $serializeData = serialize($students);
+        file_put_contents(DB_NAME,$serializeData);
+        header('Location:index.php?error=4');
+    }
+    function getNewId($students){
+        $maxId= max(array_column($students,'id'));
+        return $maxId+1;
+    }
 ?>
+

@@ -5,7 +5,12 @@
 
     $task = $_GET['task']?? 'report';
     $error = $_GET['error']?? '0';
-
+    if('delete'==$task){
+      $id = filter_input(INPUT_GET,'id',FILTER_SANITIZE_STRING);
+      if($id>=0){
+        deletedStudent($id);
+      }
+    }
     if('seed'==$task){
         seed();
         $info = "Seeding is Compleate";
@@ -84,6 +89,26 @@
                           </div>
                         <?php
                       endif;
+                    if(3==$error):
+                      ?>
+                         <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                Student Updated Sucessfully !
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                      <?php
+                    endif;
+                  if(4==$error):
+                    ?>
+                       <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                              Studen Deleted Sucessfully !
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    <?php
+                  endif;
                       
       
                       if('1'==$error):
